@@ -37,6 +37,7 @@
   display: flex;
   gap: 30px;
   align-items: center;
+  height: 100%;
 }
 
 .nav-links a, .dropbtn {
@@ -60,7 +61,9 @@
 /* Dropdown Container */
 .dropdown {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .dropbtn {
@@ -72,7 +75,8 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 0;
+  height: 100%;
   font-family: inherit;
 }
 
@@ -84,7 +88,7 @@
   min-width: 220px;
   border: 1px solid var(--pantone-black);
   z-index: 1001;
-  top: 100%;
+  top: calc(100% - 1px);
   left: 0;
   box-shadow: 0px 8px 16px rgba(0,0,0,0.05);
 }
@@ -107,7 +111,8 @@
 }
 
 /* Hover effects */
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
   display: block;
 }
 

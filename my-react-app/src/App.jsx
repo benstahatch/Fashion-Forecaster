@@ -77,7 +77,7 @@ function AuthAwareRedirect({ session, authLoading }) {
         return <AuthLoadingScreen />;
     }
 
-    return <Navigate to={session ? AUTHENTICATED_HOME : "/signin"} replace />;
+    return <Navigate to={AUTHENTICATED_HOME} replace />;
 }
 
 function App() {
@@ -160,27 +160,15 @@ function App() {
                     />
                     <Route
                         path="/intro"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <IntroPage />
-                            </ProtectedRoute>
-                        }
+                        element={<IntroPage />}
                     />
                     <Route
                         path="/about"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <AboutPage />
-                            </ProtectedRoute>
-                        }
+                        element={<AboutPage />}
                     />
                     <Route
                         path="/trend"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <TrendPage />
-                            </ProtectedRoute>
-                        }
+                        element={<TrendPage />}
                     />
                     <Route
                         path="/color"
@@ -216,35 +204,19 @@ function App() {
                     />
                     <Route
                         path="/collage"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <CollagePage />
-                            </ProtectedRoute>
-                        }
+                        element={<CollagePage />}
                     />
                     <Route
                         path="/market"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <MarketPage />
-                            </ProtectedRoute>
-                        }
+                        element={<MarketPage />}
                     />
                     <Route
                         path="/fashionWeek"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <FashionPage />
-                            </ProtectedRoute>
-                        }
+                        element={<FashionPage />}
                     />
                     <Route
                         path="/street"
-                        element={
-                            <ProtectedRoute session={session} authLoading={authLoading}>
-                                <StreetStylePage />
-                            </ProtectedRoute>
-                        }
+                        element={<StreetStylePage />}
                     />
                     
                     <Route 

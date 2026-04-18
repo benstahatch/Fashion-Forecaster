@@ -14,7 +14,7 @@ export default function AuthPage() {
   const [isChanging, setIsChanging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fullName, setFullName] = useState('');
-  const [signUpRole, setSignUpRole] = useState('student');
+  const [signUpRole, setSignUpRole] = useState('');
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
   const [signUpEmail, setSignUpEmail] = useState('');
@@ -175,6 +175,9 @@ export default function AuthPage() {
               onChange={(e) => setSignUpRole(sanitizeSignupRole(e.target.value))}
               required
             >
+              <option value="" disabled>
+                Select A Role
+              </option>
               <option value="student">STUDENT</option>
               <option value="professor">PROFESSOR</option>
             </select>

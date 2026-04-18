@@ -4,6 +4,7 @@ import { Stage, Layer, Rect } from 'react-konva';
 import CollageBox from '../components/collageBox.jsx';
 import { fetchColors } from './features/colorForecasting/data/colorService';
 import { fetchColorStoriesByColor } from './features/colorForecasting/data/colorStoryService';
+import { supabase } from '../lib/supabaseClient';
 import './collageCreator.css';
 
 const GRID_SIZE = 20;
@@ -18,13 +19,69 @@ export default function CollagePage() {
   const [activeLibraryColorId, setActiveLibraryColorId] = useState(null);
   const [activeLibraryStory, setActiveLibraryStory] = useState(null);
   const [isLoadingStory, setIsLoadingStory] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [stageSize, setStageSize] = useState({ width: BASE_WIDTH, height: BASE_HEIGHT, scale: 1 });
 
   const stageRef = useRef();
   const containerRef = useRef();
 
+  const updateRectById = (id, updater) => {
+    setRects((prev) => prev.map((item) => (
+      item.id === id
+        ? { ...item, ...(typeof updater === 'function' ? updater(item) : updater) }
+        : item
+    )));
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function syncSessionState() {
+      const {
+        data: { session },
+        error
+      } = await supabase.auth.getSession();
+
+      if (!isMounted) {
+        return;
+      }
+
+      if (error) {
+        console.error('Unable to load session for collage editor:', error);
+        setIsAuthenticated(false);
+        return;
+      }
+
+      setIsAuthenticated(Boolean(session));
+    }
+
+    syncSessionState();
+
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) {
+        return;
+      }
+
+      setIsAuthenticated(Boolean(session));
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
   useEffect(() => {
     async function loadSavedColors() {
+      if (!isAuthenticated) {
+        setSavedColors([]);
+        setActiveLibraryColorId(null);
+        setActiveLibraryStory(null);
+        return;
+      }
+
       try {
         const data = await fetchColors();
         setSavedColors(data || []);
@@ -35,10 +92,15 @@ export default function CollagePage() {
     }
 
     loadSavedColors();
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     async function loadActiveStory() {
+      if (!isAuthenticated) {
+        setActiveLibraryStory(null);
+        return;
+      }
+
       if (!activeLibraryColorId) {
         setActiveLibraryStory(null);
         return;
@@ -58,7 +120,7 @@ export default function CollagePage() {
     }
 
     loadActiveStory();
-  }, [activeLibraryColorId]);
+  }, [activeLibraryColorId, isAuthenticated]);
 
   // Handle Responsive Scaling
   useEffect(() => {
@@ -99,12 +161,6 @@ export default function CollagePage() {
 
 
   // Here you can adjust the sizes of the defaulted blocks
-  const addSquare = () => {
-    const id = `rect${Date.now()}`;
-    setRects([...rects, { id, x: 40, y: 40, width: 140, height: 140, fill: '#000000', type: 'rect' }]);
-    setSelectedId(id);
-  };
-
   const addBox = () => {
     const id = `rect${Date.now()}`;
     setRects([...rects, { id, x: 40, y: 40, width: 250, height: 60, fill: '#000000', type: 'rect' }]);
@@ -126,11 +182,7 @@ export default function CollagePage() {
     }
 
     if (selectedItem?.type === 'text') {
-      setRects((prev) => prev.map((item) => (
-        item.id === selectedId
-          ? { ...item, text }
-          : item
-      )));
+      updateRectById(selectedId, { text });
       return;
     }
 
@@ -247,7 +299,6 @@ export default function CollagePage() {
         <div className="tool-section">
           <label>Elements</label>
           <button className="secondary-btn" onClick={addBox}>+ Add Block</button>
-          <button className="secondary-btn" onClick={addSquare}>+ Add Square</button>
           <button className="secondary-btn" onClick={addText}>+ Add Text</button>
         </div>
 
@@ -267,7 +318,13 @@ export default function CollagePage() {
 
         <div className="tool-section">
           <label>Color Library</label>
-          {savedColors.length ? (
+          {!isAuthenticated ? (
+            <Link to="/signin" className="saved-colors-empty-link">
+              <span className="saved-colors-empty">
+                Sign in to use your Color Forecasting library here.
+              </span>
+            </Link>
+          ) : savedColors.length ? (
             <div className="saved-colors-list">
               {savedColors.map((color) => (
                 <button
@@ -387,14 +444,14 @@ export default function CollagePage() {
                   type="text"
                   className="text-input"
                   value={selectedItem.text}
-                  onChange={(e) => setRects(rects.map(r => r.id === selectedId ? { ...r, text: e.target.value } : r))}
+                  onChange={(e) => updateRectById(selectedId, { text: e.target.value })}
                 />
                 <div>
                   <label>Font</label>
                   <select
                     className="font-select"
                     value={selectedItem.fontFamily}
-                    onChange={(e) => setRects(rects.map(r => r.id === selectedId ? { ...r, fontFamily: e.target.value } : r))}
+                    onChange={(e) => updateRectById(selectedId, { fontFamily: e.target.value })}
                   >
                     <option value="Arial">Arial</option>
                     <option value="Courier New">Courier</option>
@@ -410,7 +467,7 @@ export default function CollagePage() {
                 <input
                   type="color"
                   value={selectedItem?.fill || '#000000'}
-                  onChange={(e) => setRects(rects.map(r => r.id === selectedId ? { ...r, fill: e.target.value } : r))}
+                  onChange={(e) => updateRectById(selectedId, { fill: e.target.value })}
                 />
                 <span>Edit Color</span>
               </div>
