@@ -1,6 +1,6 @@
 # Backend Inventory
 
-This document records what the current codebase expects from the backend. It is intentionally conservative: the live Supabase project is the real source of truth until a full schema export exists in Git.
+This document records what the current codebase expects from the backend. Supabase is the system of record for the database and authentication layer.
 
 ## Architecture
 
@@ -136,29 +136,14 @@ This document records what the current codebase expects from the backend. It is 
 - `GET /api/trend-board-colors/:boardId`
 - `DELETE /api/trend-board-colors/:boardId/:colorId`
 
-## Checked-in SQL Files
-
-These files exist and should be reviewed during backend reconstruction:
-
-- `client/my-react-app/src/pages/features/colorForecasting/data/forecastSchema.sql`
-- `client/my-react-app/src/pages/features/colorForecasting/services/trendBoardsSchema.sql`
-- `client/my-react-app/src/pages/features/colorForecasting/services/trendBoardConstraints.sql`
-
-Important caveat:
-
-- The SQL in the repository is incomplete.
-- `forecastSchema.sql` contains an obvious typo and should not be executed blindly.
-- The live Supabase dashboard should be compared against these files before recreating or migrating anything.
-
 ## Reconstruction Checklist
 
 1. Export or manually record every live Supabase table definition.
 2. Export or record every RLS policy.
 3. Confirm whether email confirmation is required for sign-up.
 4. Confirm whether any storage buckets are used outside what is visible in code.
-5. Confirm which tables are required for the working `benji-on-kensey` branch.
-6. Rebuild the project under teacher ownership if direct transfer is unavailable.
-7. Test:
+5. Rebuild the project under teacher ownership if direct transfer is unavailable.
+6. Test:
    - sign-up
    - sign-in
    - profile creation

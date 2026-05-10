@@ -2,10 +2,21 @@
 
 Fashion-Forecaster is a student-built fashion forecasting platform with a React frontend, an Express backend, Supabase for auth and application data, and Gemini-powered chatbot responses for fashion research prompts.
 
-This repository is now structured for semester-to-semester handoff. Start with the documents below before making changes:
+This repository contains the current working codebase for the Fashion-Forecaster project.
 
-- `docs/handoff.md`: operational handoff, ownership transfer steps, and team workflow
-- `docs/backend-inventory.md`: current backend dependencies, known Supabase tables, and reconstruction checklist
+## Tools Needed
+
+Before running the project, install:
+
+- Node.js
+- npm
+- Git
+
+You will also need access to:
+
+- a Supabase project
+- a Gemini API key
+- a Pexels API key
 
 ## System Overview
 
@@ -18,46 +29,77 @@ This repository is now structured for semester-to-semester handoff. Start with t
   - Gemini for chatbot text generation
   - Pexels for market research imagery
 
-## Current Branching Context
-
-- Local handoff branch: `benji-on-kensey`
-- Historical upstream repo: `Kensey-McDowell/Fashion-Forecaster`
-- Recommended canonical future home: a teacher-controlled repository
-
-Do not assume the historical upstream repository is the long-term source of truth. The next semester should work from a teacher-controlled repository and teacher-controlled Supabase access.
-
 ## Local Development
 
-### Frontend
+### 1. Create environment files
 
-```bash
-cd client/my-react-app
-npm install
-npm run dev
-```
+Create these two files locally and keep the real values in them:
 
-Required frontend environment variables:
+- `client/my-react-app/.env`
+- `server/.env`
+
+You can copy the examples in:
+
+- `client/my-react-app/.env.example`
+- `server/.env.example`
+
+Frontend `.env` values:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 - `VITE_PEXELS_API_KEY`
 
-### Server
-
-```bash
-cd server
-npm install
-node server.js
-```
-
-The server runs on `http://localhost:3001`.
-
-Required server environment variables:
+Server `.env` values:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 - `GEMINI_API_KEY`
 - `VITE_PEXELS_API_KEY`
+
+Do not commit real API keys or secret values to GitHub.
+
+### 2. Install dependencies
+
+Frontend:
+
+```bash
+cd client/my-react-app
+npm install
+```
+
+Server:
+
+```bash
+cd server
+npm install
+```
+
+### 3. Run the server
+
+Open a terminal in the server folder:
+
+```bash
+cd server
+node server.js
+```
+
+The server runs on `http://localhost:3001`.
+
+### 4. Run the client
+
+Open a second terminal in the client folder:
+
+```bash
+cd client/my-react-app
+npm run dev
+```
+
+Vite will print the local frontend URL in the terminal, usually `http://localhost:5173`.
+
+### 5. Use the app
+
+- Make sure the server is running before testing the chatbot.
+- Make sure both `.env` files have valid values before signing in or using Supabase-backed features.
 
 ## Application Flow
 
@@ -71,7 +113,6 @@ Required server environment variables:
 
 - Colors are stored in Supabase and associated with authenticated users.
 - Forecasts, forecast-color joins, color stories, and trend boards are also persisted in Supabase.
-- Some SQL setup files for the color forecasting feature are checked into the repo, but they are not a complete backend source of truth.
 
 ### Chatbot
 
@@ -79,10 +120,8 @@ Required server environment variables:
 - The server reads fashion CSV data from `server/data` if available and falls back to hardcoded demo values when dataset files are missing.
 - Gemini generates short editorial responses based on the loaded fashion data.
 
-## Handoff Rules
+## Notes
 
-- Keep secrets out of Git. Use `.env.example` files for names only.
-- Treat `main` as deployable.
-- Use pull requests for all semester work.
-- Protect the canonical repository with at least two maintainers.
-- Preserve Supabase access under teacher ownership, not a student personal account.
+- Keep secrets out of Git. Use `.env.example` files for variable names only.
+- Use `main` as the stable branch.
+- Use feature branches and pull requests for ongoing work.

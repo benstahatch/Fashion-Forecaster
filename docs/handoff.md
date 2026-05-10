@@ -133,7 +133,6 @@ The outgoing team should hold one walkthrough with the teacher and the incoming 
 ## Known Risks
 
 - The repository does not contain a complete Supabase migration history.
-- Some Supabase-related SQL files in the repo are partial and should not be trusted as complete production setup.
 - The server expects dataset files under `server/data`, but fallback demo data is used if they are missing.
 - The chatbot is hardcoded to call `http://localhost:3001/chat` in local development code.
 - The backend currently uses the Supabase anon key in the server environment, not a service-role key.
