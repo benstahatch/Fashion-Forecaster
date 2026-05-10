@@ -1,0 +1,109 @@
+.intro-container {
+  position: fixed;
+  inset: 0; 
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  background-color: var(--pantone-white); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white; 
+  z-index: 9999;
+  transition: opacity 1s ease-in-out;
+}
+
+.intro-wrapper.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.main-content {
+  opacity: 0; 
+  transform: translateY(20px);
+  animation: fadeInContent 1.8s ease-out forwards;
+  animation-delay: 0.1s; 
+}
+
+@keyframes fadeInContent {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-content h1 {
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 200;
+  letter-spacing: 0px;
+  color: #333;
+}
+
+/* Timeline content */
+.timeline-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 40px 0;
+}
+
+/* The continuous vertical line */
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background-color: #000;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.timeline-step {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 120px; /* Space between steps */
+  transition: all 0.6s ease-in-out;
+  opacity: 0.2;
+  transform: scale(0.9);
+}
+
+.timeline-step.in-focus {
+  opacity: 1;
+  transform: scale(1.15); 
+}
+
+/* Alternating logic */
+.timeline-step:nth-child(odd) { flex-direction: row; }
+.timeline-step:nth-child(even) { flex-direction: row-reverse; }
+
+.timeline-content {
+  flex: 1;
+  padding: 0 50px;
+}
+
+.timeline-step:nth-child(odd) .timeline-content { text-align: right; }
+.timeline-step:nth-child(even) .timeline-content { text-align: left; }
+
+.timeline-spacer { flex: 1; }

@@ -1,0 +1,20 @@
+:root {
+  --pantone-black: #000000;
+  --pantone-white: #ffffff;
+  --pantone-gray: #f2f2f2;
+  --pantone-black: #000000;
+  --pantone-white: #ffffff;
+  --pantone-gray: #f2f2f2;
+}
+
+body {
+  margin: 0;
+  background-color: var(--pantone-white);
+  color: var(--pantone-black);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  text-transform: uppercase;
+  letter-spacing: -0.05em; 
+}

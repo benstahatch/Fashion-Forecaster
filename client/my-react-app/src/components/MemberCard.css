@@ -1,0 +1,145 @@
+/* *** card size ***  */
+.member-card {
+    width: clamp(150px, 12vw, 160px);
+    height: 220px;
+    perspective: 1200px;
+    cursor: pointer;
+}
+
+/* *** team member's card contents ***  */
+.member-card-contents {
+    width: 130%;
+    height: 130%;
+    transition: transform 0.7s ease;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+}
+
+/* ** hovering over card and when flipped ** */
+.member-card:hover .member-card-contents, 
+.member-card.flipped .member-card-contents {
+    transform: rotateY(180deg);
+}
+
+/* ** front & back card faces ** */
+.member-card-front, .member-card-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    background: var(--pantone-black);
+    color: var(--pantone-white);
+    border: 1px solid #cccccc;
+}
+/* * front card face * */
+.member-card-front {
+    transform: rotateY(0deg);
+}
+
+.member-card-front img {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.member-card-front::after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50%;
+    /* background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2), transparent); */
+    z-index: 1;
+}
+
+.member-card-front-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 12px;
+    backface-visibility: hidden;
+    z-index: 2;
+}
+
+.member-card-front-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--pantone-white);
+    text-shadow: 3px 3px 6px var(--pantone-black);
+    margin: 0px;
+    backface-visibility: hidden;
+}
+
+.member-card-front-info p {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--pantone-white);
+    text-shadow: 2px 2px 5px var(--pantone-black);
+    opacity: 0.9;
+    margin: 2px 0px 0px 0px;
+    backface-visibility: hidden;
+}
+
+/* * back card face * */
+.member-card-back {
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.member-card-back h4 {
+    text-align: center;
+    font-size: 23px;
+}
+
+.member-card-back a {
+    color: var(--pantone-white);
+    font-size: 19.4px;
+    text-decoration: none;
+}
+
+.member-card-back a:hover {
+    background-color: #333232;
+}
+
+/* * edit Anlee's image for the front of the card */
+.member-card-front img.anlee {
+    object-position: -124px -57px;
+    transform: scale(1.68);
+}
+
+/* ** responsive design ** */
+@media (max-width: 768px) {
+    .member-card-front img.anlee {
+        object-position: -130px -57px;
+        transform: scale(1.668);
+    }
+    
+}
+
+/* @media (max-width: 577px) {
+    .member-card-front img.anlee {
+        object-position: -130px -57px;
+        transform: scale(1.668);
+    }
+} */

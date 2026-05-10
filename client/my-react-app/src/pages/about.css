@@ -1,0 +1,186 @@
+
+body {
+    background-color: var(--pantone-gray) !important;
+}
+
+/* *** about contents *** */
+.about-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px clamp(20px, 8vw, 100px);
+    max-width: 1200px;
+    width: 100%;
+    margin: 0px auto;
+    position: relative;
+    gap: 60px;
+    overflow-y: auto !important;
+    box-sizing: border-box;
+    animation: slideUp 1.5s ease-out forwards;
+}
+
+.about-header {
+    margin: -20px 0px 0px 0px;
+    font-size: clamp(3.75rem, 6vw, 4.125rem);
+    /* font-size: clamp(60px, 6vw, 66px); */
+    text-align: center;
+}
+.lowercaseTitle {
+    text-transform: lowercase;
+}
+/* *** about ForeMT Fashion description *** */
+.about-description-section {
+    color: var(--pantone-black);
+    background-color: lightgray;
+    margin-bottom: 30px;
+    padding:  30px;
+    border: 2px solid var(--pantone-black);
+    border-radius: 12px;
+    box-shadow: 12px 0px 10px #0000006d;
+    max-width: 1050px;
+    width: 100%;
+    opacity: 1;
+    box-sizing: border-box;
+}
+
+.about-description-section p {
+    line-height: 1.6;
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    /* font-size: clamp(18px, 2vw, 20px); */
+}
+
+@keyframes slideUp {
+    0% { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+/* *** meet the team carousel *** */
+.team-carousel {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    -webkit-mask-image: linear-gradient(
+        to right, 
+        transparent 0%, 
+        var(--pantone-black) 10%, 
+        var(--pantone-black) 90%, 
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to right, 
+        transparent 0%, 
+        var(--pantone-black) 10%, 
+        var(--pantone-black) 90%, 
+        transparent 100%
+    );
+}
+
+.team-carousel-header {
+    font-size: clamp(3.75rem, 6vw, 7.75rem);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--pantone-black);
+}
+
+.team-carousel-content {
+    display: flex;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+}
+
+.team-carousel-content:hover {
+    animation-play-state: paused;
+}
+
+.team-carousel-group {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.carousel-card-container {
+    position: relative;
+    display: inline-block;
+    width: 250px;
+    height: 287px;
+    flex-shrink: 0;
+}
+
+.carousel-card-container > * {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* *** responsive design *** */
+@media (max-width: 1024px) {
+    .about-contents { 
+        padding: 60px clamp (20px, 5vw, 60px);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-contents { 
+        padding: 40px 24px;
+    }
+
+    .about-description-section {
+        margin-bottom: 20px;
+        padding: 24px;
+    }
+
+    .team-carousel {
+        width: 90vw;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .team-carousel-content {
+        margin-bottom: 20px;
+    }
+
+    .carousel-card-container {
+        width: 240px;
+        height: 287px;
+    }
+}
+
+@media (max-width: 577px) {
+    .about-contents { 
+        padding: 30px 16px;
+    }
+
+    .about-description-section {
+        padding: 18px;
+        border-radius: 8px;
+    }
+
+    .team-carousel {
+        width: 90vw;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .team-carousel-content {
+        margin-bottom: 20px;
+    }
+
+    .carousel-card-container {
+        width: 240px;
+        height: 287px;
+    }
+
+    .team-carousel-header {
+        margin-bottom: 60px;
+    }
+}
